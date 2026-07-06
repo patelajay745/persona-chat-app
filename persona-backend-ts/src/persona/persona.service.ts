@@ -1,6 +1,6 @@
-import type { messageArrayTypes } from "@/types/messageArrayTypes.ts";
-import { generateSystemPrompt, PERSONAS, type Persona } from "@/constants/systemPrompts.ts";
-import { openAIClient } from "@/utils/openAi";
+import type { messageArrayTypes } from "../types/messageArrayTypes.ts";
+import { generateSystemPrompt, PERSONAS, type Persona } from "../constants/systemPrompts.ts";
+import { openAIClient } from "../utils/openAi";
 
 class PersonaService {
   constructor(private persona: Persona) {}

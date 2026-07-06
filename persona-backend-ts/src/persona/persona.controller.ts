@@ -1,9 +1,9 @@
-import { ApiError } from "@/utils/apiError";
-import { ApiResponse } from "@/utils/apiResponse";
-import { asyncHandler } from "@/utils/asyncHandler";
+import { ApiError } from "../utils/apiError";
+import { ApiResponse } from "../utils/apiResponse";
+import { asyncHandler } from "../utils/asyncHandler";
 import type { Request, Response } from "express";
-import type { messageArrayTypes } from "@/types/messageArrayTypes.ts";
-import { PERSONAS, type Persona } from "@/constants/systemPrompts.ts";
+import type { messageArrayTypes } from "../types/messageArrayTypes.ts";
+import { PERSONAS, type Persona } from "../constants/systemPrompts.ts";
 import { getPersonaService } from "./persona.service";
 
 const resolvePersona = (rawPersona: unknown): Persona => {
