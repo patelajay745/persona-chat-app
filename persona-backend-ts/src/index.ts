@@ -1,8 +1,8 @@
 import "dotenv/config"
 import express from "express"
 import cors from "cors"
-import { errorHandler } from "./utils/errorHandler";
-import personaHandler from "./persona/persona.route"
+import { errorHandler } from "@/utils/errorHandler";
+import personaHandler from "@/persona/persona.route"
 
 
 const app= express()

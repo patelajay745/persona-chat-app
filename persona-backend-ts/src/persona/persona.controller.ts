@@ -1,16 +1,15 @@
-import { ApiError } from "../utils/apiError";
-import { ApiResponse } from "../utils/apiResponse";
-import { asyncHandler } from "../utils/asyncHandler";
+import { ApiError } from "@/utils/apiError";
+import { ApiResponse } from "@/utils/apiResponse";
+import { asyncHandler } from "@/utils/asyncHandler";
 import type { Request, Response } from "express";
-import type { messageArrayTypes } from "../types/messageArrayTypes.ts";
-import { PERSONAS, type Persona } from "../constants/systemPrompts.ts";
+import type { messageArrayTypes } from "@/types/messageArrayTypes.ts";
+import { PERSONAS, type Persona } from "@/constants/systemPrompts.ts";
 import { getPersonaService } from "./persona.service";
 
-const resolvePersona = (rawPersona: unknown): Persona => {
+const resolvePersona = (rawPersona: string): Persona => {
   const persona =
-    typeof rawPersona === "string"
-      ? PERSONAS.find((p) => p.toLowerCase() === rawPersona.toLowerCase())
-      : undefined;
+   PERSONAS.find((p) => p.toLowerCase() === rawPersona.toLowerCase())
+      
 
   if (!persona) {
     throw new ApiError(
@@ -23,7 +22,7 @@ const resolvePersona = (rawPersona: unknown): Persona => {
 };
 
 export const generateReply = asyncHandler(async (req: Request, res: Response) => {
-  const persona = resolvePersona(req.params.persona);
+  const persona = resolvePersona(req.params.persona as string);
   const { messages } = req.body as { messages: messageArrayTypes[] };
 
   const reply = await getPersonaService(persona).generateReply(messages);
@@ -34,7 +33,7 @@ export const generateReply = asyncHandler(async (req: Request, res: Response) =>
 });
 
 export const streamReply = asyncHandler(async (req: Request, res: Response) => {
-  const persona = resolvePersona(req.params.persona);
+  const persona = resolvePersona(req.params.persona as string);
   const { messages } = req.body as { messages: messageArrayTypes[] };
 
   res.setHeader("Content-Type", "text/event-stream");
