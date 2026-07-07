@@ -42,6 +42,7 @@ export function ChatSidebar({
 }: ChatSidebarProps) {
   return (
     <motion.aside
+      initial={false}
       animate={{ width: collapsed ? SIDEBAR_WIDTH.collapsed : SIDEBAR_WIDTH.expanded }}
       transition={SIDEBAR_TRANSITION}
       className="sticky top-0 hidden h-svh shrink-0 md:flex"

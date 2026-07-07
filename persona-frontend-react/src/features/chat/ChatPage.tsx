@@ -19,25 +19,17 @@ interface ChatPageContentProps {
 
 function ChatPageContent({ persona }: ChatPageContentProps) {
   const { messages, isStreaming, messagesRemaining, sendMessage } = useChat()
-  const [sidebarCollapsed, setSidebarCollapsed] = useSidebarCollapsed()
 
   return (
-    <div className="flex min-h-svh">
-      <ChatSidebar
-        activePersonaId={persona.id}
-        collapsed={sidebarCollapsed}
-        onToggleCollapsed={() => setSidebarCollapsed((prev) => !prev)}
-      />
-      <div className="flex min-w-0 flex-1 flex-col items-center">
-        <div className="flex w-full max-w-4xl flex-1 flex-col">
-          <ChatHeader persona={persona} />
-          <ChatMessageList messages={messages} />
-          <ChatComposer
-            disabled={isStreaming}
-            messagesRemaining={messagesRemaining}
-            onSend={sendMessage}
-          />
-        </div>
+    <div className="flex min-w-0 flex-1 flex-col items-center">
+      <div className="flex w-full max-w-4xl flex-1 flex-col">
+        <ChatHeader persona={persona} />
+        <ChatMessageList messages={messages} />
+        <ChatComposer
+          disabled={isStreaming}
+          messagesRemaining={messagesRemaining}
+          onSend={sendMessage}
+        />
       </div>
     </div>
   )
@@ -45,6 +37,7 @@ function ChatPageContent({ persona }: ChatPageContentProps) {
 
 export function ChatPage() {
   const { personaId } = useParams<{ personaId: string }>()
+  const [sidebarCollapsed, setSidebarCollapsed] = useSidebarCollapsed()
 
   if (!isPersonaId(personaId)) {
     return <Navigate to="/" replace />
@@ -53,8 +46,15 @@ export function ChatPage() {
   const persona = PERSONAS.find((p) => p.id === personaId)!
 
   return (
-    <ChatProvider personaId={personaId} key={personaId}>
-      <ChatPageContent persona={persona} />
-    </ChatProvider>
+    <div className="flex min-h-svh">
+      <ChatSidebar
+        activePersonaId={persona.id}
+        collapsed={sidebarCollapsed}
+        onToggleCollapsed={() => setSidebarCollapsed((prev) => !prev)}
+      />
+      <ChatProvider personaId={personaId} key={personaId}>
+        <ChatPageContent persona={persona} />
+      </ChatProvider>
+    </div>
   )
 }
